@@ -6,7 +6,8 @@ import argparse
 import csv
 from collections import OrderedDict
 
-def Parse_Args():
+# 输入参数
+def Parse_Args(): 
     description = ('Parse a Caffe training log into two CSV files')
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('logfile_path',help='Path to log file')
@@ -15,6 +16,7 @@ def Parse_Args():
     args = parser.parse_args()
     return args
 
+# 解决初始状态为空的问题， 设置成 0.0
 def Fix_Initial_None(dict_list, isTrain):
     if len(dict_list) > 1:
         dict_list[0]['LearningRate'] = dict_list[1]['LearningRate']
@@ -27,7 +29,7 @@ def Fix_Initial_None(dict_list, isTrain):
 		])
 	    dict_list.append(row)
 	else:
-	    row = OrderedDict([
+	    row = OrderedDict([/
 		('NumIters', '0'),
 		('LearningRate', '0.0'),
 		('accuracy','0.0'),
@@ -35,6 +37,7 @@ def Fix_Initial_None(dict_list, isTrain):
 		])
 	    dict_list.append(row) 
 
+# 解析caffe 训练log 的每一行，得到想要的参数数值，
 def Parse_Line_For_Output(regex_obj, row, row_dict_list, line, iteration, learning_rate):
     output_match = regex_obj.search(line)
     if output_match:
@@ -54,7 +57,7 @@ def Parse_Line_For_Output(regex_obj, row, row_dict_list, line, iteration, learni
         row = None
     return row_dict_list, row
 
-
+# 主要函数， 用正则表达式解析需要知道的参数,主要改这里
 def Parse_Log(path_to_log):
     regex_weight_decay = re.compile('weight_decay: ([\.\deE+-]+)')
     regex_momentum = re.compile('momentum: ([\.\deE+-]+)')
@@ -164,6 +167,7 @@ def Write_Csv(output_filename, dict_list, delimiter):
         dict_writer.writeheader()
         dict_writer.writerows(dict_list)
 
+#把解析获得的 train/ test /info 三个字典存到文件里，方便web应用读取
 def Save_Csv_Files(logfile_path, output_dir, train_dict_list, test_dict_list, info_dict_list, delimiter=','):
     log_basename = os.path.basename(logfile_path)    
     train_filename = os.path.join(output_dir, log_basename + '.train')
