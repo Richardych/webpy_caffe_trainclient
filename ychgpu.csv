@@ -1,0 +1,2 @@
+Gpu_Id,Product_Name,Mode,Current_Driver_Model,Total_Memory,Used_Memory,Free_Memory,GPU_Util,Memory_Util,Temperature,Graphics_Clock,Memory_Clock,Perf_State
+0000:01:00.0,GeForce GTX 960M,0,NA,4095 MB,426 MB,3669 MB,19%,11%,40C,135,405,8

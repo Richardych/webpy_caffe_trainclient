@@ -1,0 +1,414 @@
+I1127 15:59:51.315172 14420 caffe.cpp:217] Using GPUs 0
+I1127 15:59:51.325611 14420 caffe.cpp:222] GPU 0: GeForce GTX 960M
+I1127 15:59:51.454694 14420 solver.cpp:48] Initializing solver from parameters: 
+test_iter: 35
+test_interval: 40
+base_lr: 0.005
+display: 20
+max_iter: 4000
+lr_policy: "step"
+gamma: 0.1
+momentum: 0.9
+weight_decay: 0.005
+stepsize: 1000
+snapshot: 2000
+snapshot_prefix: "/home/deepglint/imgclassify/walkpeople/models/"
+solver_mode: GPU
+device_id: 0
+net: "/home/deepglint/imgclassify/walkpeople/models/train_val.prototxt"
+train_state {
+  level: 0
+  stage: ""
+}
+I1127 15:59:51.454805 14420 solver.cpp:91] Creating training net from net file: /home/deepglint/imgclassify/walkpeople/models/train_val.prototxt
+I1127 15:59:51.455379 14420 net.cpp:322] The NetState phase (0) differed from the phase (1) specified by a rule in layer data
+I1127 15:59:51.455400 14420 net.cpp:322] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy
+I1127 15:59:51.455551 14420 net.cpp:58] Initializing net from parameters: 
+name: "CaffeNet"
+state {
+  phase: TRAIN
+  level: 0
+  stage: ""
+}
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    mirror: true
+    crop_size: 180
+    mean_file: "/home/deepglint/imgclassify/walkpeople/mean.binaryproto"
+  }
+  data_param {
+    source: "/home/deepglint/imgclassify/walkpeople/img_train_lmdb"
+    batch_size: 128
+    backend: LMDB
+  }
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 96
+    kernel_size: 11
+    stride: 4
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "norm1"
+  type: "LRN"
+  bottom: "pool1"
+  top: "norm1"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "norm1"
+  top: "conv2"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    pad: 2
+    kernel_size: 5
+    group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "norm2"
+  type: "LRN"
+  bottom: "pool2"
+  top: "norm2"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "norm2"
+  top: "conv3"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 384
+    pad: 1
+    kernel_size: 3
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu3"
+  type: "ReLU"
+  bottom: "conv3"
+  top: "conv3"
+}
+layer {
+  name: "conv4"
+  type: "Convolution"
+  bottom: "conv3"
+  top: "conv4"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 384
+    pad: 1
+    kernel_size: 3
+    group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu4"
+  type: "ReLU"
+  bottom: "conv4"
+  top: "conv4"
+}
+layer {
+  name: "conv5"
+  type: "Convolution"
+  bottom: "conv4"
+  top: "conv5"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  convolution_param {
+    num_output: 256
+    pad: 1
+    kernel_size: 3
+    group: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu5"
+  type: "ReLU"
+  bottom: "conv5"
+  top: "conv5"
+}
+layer {
+  name: "pool5"
+  type: "Pooling"
+  bottom: "conv5"
+  top: "pool5"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "fc6"
+  type: "InnerProduct"
+  bottom: "pool5"
+  top: "fc6"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 4096
+    weight_filler {
+      type: "gaussian"
+      std: 0.005
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu6"
+  type: "ReLU"
+  bottom: "fc6"
+  top: "fc6"
+}
+layer {
+  name: "drop6"
+  type: "Dropout"
+  bottom: "fc6"
+  top: "fc6"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc7"
+  type: "InnerProduct"
+  bottom: "fc6"
+  top: "fc7"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 4096
+    weight_filler {
+      type: "gaussian"
+      std: 0.005
+    }
+    bias_filler {
+      type: "constant"
+      value: 1
+    }
+  }
+}
+layer {
+  name: "relu7"
+  type: "ReLU"
+  bottom: "fc7"
+  top: "fc7"
+}
+layer {
+  name: "drop7"
+  type: "Dropout"
+  bottom: "fc7"
+  top: "fc7"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc8"
+  type: "InnerProduct"
+  bottom: "fc7"
+  top: "fc8"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "fc8"
+  bottom: "label"
+  top: "loss"
+}
+I1127 15:59:51.455660 14420 layer_factory.hpp:77] Creating layer data
+I1127 15:59:51.474234 14420 net.cpp:100] Creating Layer data
+I1127 15:59:51.474272 14420 net.cpp:408] data -> data
+I1127 15:59:51.474298 14420 net.cpp:408] data -> label
+I1127 15:59:51.474318 14420 data_transformer.cpp:25] Loading mean file from: /home/deepglint/imgclassify/walkpeople/mean.binaryproto
+F1127 15:59:51.474337 14420 io.cpp:54] Check failed: fd != -1 (-1 vs. -1) File not found: /home/deepglint/imgclassify/walkpeople/mean.binaryproto
+*** Check failure stack trace: ***
+I1127 15:59:51.475188 14425 db_lmdb.cpp:35] Opened lmdb /home/deepglint/imgclassify/walkpeople/img_train_lmdb
+    @     0x7fc61e23edaa  (unknown)
+    @     0x7fc61e23ece4  (unknown)
+    @     0x7fc61e23e6e6  (unknown)
+    @     0x7fc61e241687  (unknown)
+    @     0x7fc61e883713  caffe::ReadProtoFromBinaryFile()
+    @     0x7fc61e84bbbb  caffe::DataTransformer<>::DataTransformer()
+    @     0x7fc61e8c9e3b  caffe::BaseDataLayer<>::LayerSetUp()
+    @     0x7fc61e8c9f23  caffe::BasePrefetchingDataLayer<>::LayerSetUp()
+    @     0x7fc61e863c3c  caffe::Net<>::Init()
+    @     0x7fc61e864ac5  caffe::Net<>::Net()
+    @     0x7fc61e86d0fa  caffe::Solver<>::InitTrainNet()
+    @     0x7fc61e86e1fc  caffe::Solver<>::Init()
+    @     0x7fc61e86e52a  caffe::Solver<>::Solver()
+    @     0x7fc61e8b4293  caffe::Creator_SGDSolver<>()
+    @           0x40f12e  caffe::SolverRegistry<>::CreateSolver()
+    @           0x408164  train()
+    @           0x405b6c  main
+    @     0x7fc61d24af45  (unknown)
+    @           0x4063db  (unknown)
+    @              (nil)  (unknown)

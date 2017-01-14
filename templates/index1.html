@@ -1,0 +1,85 @@
+$def with(content,gpuinfo,filepath,savepath)
+<html>
+<head> 
+</head>
+<body bgcolor="#66cccc">
+<script >
+    setTimeout("document.form1.submit()",300000) 
+    </script>
+<form name="form1" method="post" action="track">
+    <B>Caffe Log path:</B>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<B>Save file path:</B></br>
+    <input type="text" name="logfilename" value=$filepath size="30">
+    &emsp;&emsp;&emsp;&emsp;<input type="text" name="savepath" value=$savepath size="30">
+    <input type="submit" value="Update!" /></br>
+</form>
+
+<form method="" action="track">
+    <B>Learning Curve:</B></br>
+    <img src="./static/tmp.png"/></br>
+    <br />
+</form>
+
+<form method="" action="track">
+    <label for="txt_caff1"><B>Caffe Solver Parameter:&emsp;&emsp;&emsp;</label>
+    <table id="table1" border="1" bgColor="white" width="800" >
+    <tr><th>Solver Mode:</th><th>$content['mode'][0]</th></tr>
+    <tr><th>Test interval:</th><th>$content['test_interval'][0]</th></tr>
+    <tr><th>Base learnrate:</th><th>$content['base_lr'][0]</th></tr>
+    <tr><th>Momentum:</th><th>$content['momentum'][0]</th></tr>
+    <tr><th>Weight Decay:</th><th>$content['weight_decay'][0]</th></tr>
+    <tr><th>Lr policy:</th><th>$content['lr_policy'][0]</th></tr>
+    <tr><th>Gamma:</th><th>$content['gamma'][0]</th></tr>
+    <tr><th>Power:</th><th>$content['power'][0]</th></tr>
+    <tr><th>Max Iter:</th><th>$content['max_iter'][0]</th></tr>
+    <br />
+    </table>
+</form>
+
+<form method="" action="">
+    <br />
+    <label for="txt_caff2"><B>GPU Parameter:&emsp;&emsp;&emsp;</label></br>
+    &nbsp;
+    <textarea id="1" rows="10" cols="105" readOnly=true > $gpuinfo </textarea><br />
+    <br />
+</form>
+
+</body>
+</html>
+
+
+
+
+<!--
+    <script >
+    setTimeout("document.form1.submit()",10000) 
+    </script>
+
+
+    &emsp;Solver Mode:&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" value=$content['mode'][0] size="21" readOnly=true />
+    &emsp;Test interval:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" value=$content['test_interval'][0] size="21" readOnly=true /><br />
+    
+    &emsp;Base learnrate:
+    <input type="text" value=$content['base_lr'][0] size="21" readOnly=true />
+    &emsp;Momentum:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" value=$content['momentum'][0] size="21" readOnly=true /><br />
+
+    &emsp;Weight Decay:&nbsp;&nbsp;
+    <input type="text" value=$content['weight_decay'][0] size="21" readOnly=true />
+    &emsp;Lr policy:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" value=$content['lr_policy'][0] size="21" readOnly=true /><br />
+
+    &emsp;Gamma:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" value=$content['gamma'][0] size="21" readOnly=true />
+    &emsp;Power:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" value=$content['power'][0] size="21" readOnly=true /><br />
+
+    &emsp;Max Iter:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="text" value=$content['max_iter'][0] size="21" readOnly=true /><br />
+-->
+
+
+
+
+

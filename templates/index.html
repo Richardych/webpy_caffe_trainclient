@@ -1,0 +1,49 @@
+$def with(gpuinfo)
+<html>
+<head>
+<title>MY caffe site</title> 
+</head>
+<body bgcolor="#99ccff">
+<!--
+<form method="post" action="train">
+    <br></br>
+    <label for="txt_cmd">Train Command:</label></br>
+    <input type="text" name="traincmd" value="./build/tools/caffe  train"  size="50"><br></br>
+    <label for="txt_solver">Solver Path:</label></br>
+    <input type="text" name="solverpath" value="/home/deepglint/caffe/examples/mnist/lenet_solver.prototxt"  size="50"><br></br>
+    <label for="txt_savelog">Save log Path:</label></br>
+    <input type="text" name="savelog" value="/home/deepglint/caffe/ych/"  size="50"><br></br>
+    <input type="submit" id="1" value="Start Training" />
+</form>
+-->
+
+<form method="" action="">
+    <br />
+    <label for="txt_caff2"><B>GPU Parameter:&emsp;&emsp;&emsp;</label></br>
+    &nbsp;
+    <textarea id="1" rows="9" cols="67" readOnly=true > $gpuinfo </textarea><br></br>
+</form>
+
+<form method="post" action="">
+    <label for="txt_name2">Training CMD:</label></br>
+    &nbsp;
+    <textarea name="traincmd" rows="5" cols="67" >./build/tools/caffe train --solver /home/deepglint/caffe/examples/mnist/lenet_solver.prototxt --gpu 0 2>&1 | tee /home/deepglint/caffe/ych/mnist.log</textarea><br></br>
+    &nbsp;
+    <input type="submit" id="3" value="Send Task Queue" />
+    <label><input type="radio" checked="checked" name="checktrain" value="start" />Start training</label>
+    <label><input type="radio" name="checktrain" value="stop" />Stop training</label>
+</form>
+
+<form method="post" action="track">
+    <label for="txt_name1">Choose Save file path:</label></br>
+    &nbsp;
+    <input type="text" name="savepath" value="/home/deepglint/caffe/ych/"  size="79"><br></br>
+    <label for="txt_name">Edit Log file name:</label></br>
+    &nbsp;
+    <input type="text" name="logfilename" value="mnist.log"  size="79"><br></br>
+    &nbsp;
+    <input type="submit" id="2" value="Start Tracking" />
+</form>
+
+</body>
+</html>
