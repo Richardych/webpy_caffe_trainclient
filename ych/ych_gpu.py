@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 def Start():
     try:
-        pn.nvmlInit()
+        pn.nvmlInit()    #初始化NVML
     except pn.NVMLError, err:
         print "Failed to initialize NVML: ", err
         print "Exiting..."
@@ -15,42 +15,42 @@ def Start():
 
 def Shutdown():
     try:
-        pn.nvmlShutdown()
+        pn.nvmlShutdown()    #关闭NVML
     except pn.NVMLError, err:
         print "Error shutting down NVML:"
 
 def Get_Devicecount():
-    return int(pn.nvmlDeviceGetCount())
+    return int(pn.nvmlDeviceGetCount())    #获得可用GPU数量
 
 def Get_GpuInfo(deviceCount):
     gpu_dict = {}
     tmp_dict = {}
     for i in range(0, deviceCount):
 	tmp_dict = {}
-        handle = pn.nvmlDeviceGetHandleByIndex(i)
-        pciInfo = pn.nvmlDeviceGetPciInfo(handle)
+        handle = pn.nvmlDeviceGetHandleByIndex(i)    #获得某一个ID 的gpu句柄
+        pciInfo = pn.nvmlDeviceGetPciInfo(handle)    #检索此设备的PCI属性
         gpu_id= pciInfo.busId
-        product_name=pn.nvmlDeviceGetName(handle)
+        product_name=pn.nvmlDeviceGetName(handle)    #检索此设备名称
         try:
-	    mode=pn.nvmlDeviceGetPersistenceMode(handle)  #0:Disable
+	    mode=pn.nvmlDeviceGetPersistenceMode(handle)  #检索与此设备关联的持久性模式,0:Disable
         except pn.NVMLError, err:
 	    mode='NA'
         try:
-	    Current_driver_model = pn.nvmlDeviceGetCurrentDriverModel(handle)
+	    Current_driver_model = pn.nvmlDeviceGetCurrentDriverModel(handle)    #检索当前驱动模式
  	except pn.NVMLError, err:
 	    Current_driver_model='NA'
  	try:
-	    uuid=pn.nvmlDeviceGetUUID(handle)
+	    uuid=pn.nvmlDeviceGetUUID(handle)    #检索与此设备相关联的全局唯一不可变UUID
         except np.NVMLError, err:
 	    uuid='NA'
-	pci_device_id=pciInfo.pciDeviceId
-        pci_bus_id=pciInfo.busId
+	pci_device_id=pciInfo.pciDeviceId    #检索该gpu的pci设备id
+        pci_bus_id=pciInfo.busId             #总线id
 	try:
-            width=pn.nvmlDeviceGetMaxPcieLinkWidth(handle)
+            width=pn.nvmlDeviceGetMaxPcieLinkWidth(handle)    #检索此设备和系统可能的最大PCIe链路宽度
 	except np.NVMLError, err:
 	    width='NA'
 	try:
-            memInfo = pn.nvmlDeviceGetMemoryInfo(handle)
+            memInfo = pn.nvmlDeviceGetMemoryInfo(handle)    #检索设备上已用空间，可用空间和总内存量
             mem_total = str(memInfo.total / 1024 / 1024) + ' MB'
             mem_used = str(memInfo.used / 1024 / 1024) + ' MB'
             mem_free = str(memInfo.free / 1024 / 1024) + ' MB'
@@ -60,22 +60,22 @@ def Get_GpuInfo(deviceCount):
             mem_free = 'NA'
 
         try:
-            util = nvmlDeviceGetUtilizationRates(handle)
-            gpu_util = str(util.gpu)
-            mem_util = str(util.memory)
+            util = nvmlDeviceGetUtilizationRates(handle)    #检索设备主要子系统的当前利用率
+            gpu_util = str(util.gpu)    #gpu利用率
+            mem_util = str(util.memory)    #显存利用率
         except pn.NVMLError, err:
 	    gpu_util = 'NA'
 	    mem_util = 'NA'            
         try:
-            temp = pn.nvmlDeviceGetTemperature(handle, pn.NVML_TEMPERATURE_GPU)
+            temp = pn.nvmlDeviceGetTemperature(handle, pn.NVML_TEMPERATURE_GPU)    #获取GPU当前温度
         except np.NVMLError, err:
 	    temp = 'NA'
 	try:
-            powMan = pn.nvmlDeviceGetPowerManagementMode(handle)
+            powMan = pn.nvmlDeviceGetPowerManagementMode(handle)    #获取设备当前的电源管理模式
         except pn.NVMLError, err:
             powMan = 'NA'
         try:
-            graphics_clock = pn.nvmlDeviceGetClockInfo(handle, pn.NVML_CLOCK_GRAPHICS)
+            graphics_clock = pn.nvmlDeviceGetClockInfo(handle, pn.NVML_CLOCK_GRAPHICS)    #检索设备的当前时钟速度
         except pn.NVMLError, err:
             graphics_clock = 'NA'
 	try:
@@ -83,7 +83,7 @@ def Get_GpuInfo(deviceCount):
         except np.NVMLError, err:
 	    mem_clock = 'NA'
 	try:
-	    perf_stat = pn.nvmlDeviceGetPowerState(handle)
+	    perf_stat = pn.nvmlDeviceGetPowerState(handle)    #检索设备的当前性能状
 	except np.NVMLError, err:
 	    perf_stat = 'NA'
 	tmp_dict['Gpu_Id'] = gpu_id
